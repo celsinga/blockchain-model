@@ -4,5 +4,5 @@ Decentralized app that uses Node.js and Express. Features include proof of work,
 
 # Dependencies
 
-Node.js
-Express
+- Node.js
+- Express
