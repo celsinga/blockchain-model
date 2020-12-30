@@ -1,21 +1,43 @@
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+
 let Block = require('./block');
 let Blockchain = require('./blockchain');
 let Transaction = require('./transaction');
 
-//Genesis Transaction
+let transactions = [];
 
-let transaction = new Transaction('Mary', 'Tom', 150);
+app.use(bodyParser.json());
 
-let genesisBlock = new Block();
-let blockchain = new Blockchain(genesisBlock);
+app.get('/', function(req, res) {
+  res.send("hello world");
+});
 
-let block = blockchain.getNextBlock([transaction]);
-blockchain.addBlock(block);
+app.post('/transactions', function(req, res) {
+  let from = req.body.from;
+  let to = req.body.to;
+  let amount = req.body.amount;
+  let transaction = new Transaction(from, to, amount);
 
-//2nd Transaction
+  transactions.push(transaction);
+  res.json(transactions);
+})
 
-let anotherTransaction = new Transaction('Adam', 'Sarah', 36.57);
-let block1 = blockchain.getNextBlock([anotherTransaction, transaction]);
-blockchain.addBlock(block1);
+app.get('/blockchain', function(req, res) {
+  //Genesis Transaction
+  let transaction = new Transaction('Mary', 'Tom', 150);
+  let genesisBlock = new Block();
+  let blockchain = new Blockchain(genesisBlock);
+  let block = blockchain.getNextBlock([transaction]);
+  blockchain.addBlock(block);
+  //2nd Transaction
+  let anotherTransaction = new Transaction('Adam', 'Sarah', 36.57);
+  let block1 = blockchain.getNextBlock([anotherTransaction, transaction]);
+  blockchain.addBlock(block1);
+  res.json(blockchain);
+});
 
-console.log(blockchain);
+app.listen(3000, function() {
+  console.log("server has started");
+});
