@@ -6,3 +6,4 @@ Decentralized app that uses Node.js and Express. Features include proof of work,
 
 - Node.js
 - Express
+- js-sha256
