@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
 
 let Block = require('./block');
 let Blockchain = require('./blockchain');
@@ -25,6 +26,21 @@ let blockchain = new Blockchain(genesisBlock);
  
 
 app.use(bodyParser.json());
+
+app.get('/resolve', function(req, res) {
+  nodes.forEach(function(node) {
+    fetch(node.url + '/blockchain')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(otherNodeBlockchain) {
+      if (blockchain.blocks.length < otherNodeBlockchain.block.length) {
+        blockchain = otherNodeBlockchain;
+      }
+      res.send(blockchain);
+    })
+  })
+})
 
 app.post('/nodes/register', function(req, res) {
   let nodesLists = req.body.urls;
