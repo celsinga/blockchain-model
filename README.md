@@ -1,6 +1,6 @@
 # JavaScript Blockchain Protoype
 
-Decentralized app that uses Node.js and Express. Features include proof of work, mining blocks and resolving conflicts.
+Decentralized blockchain model that uses Node.js and Express. Features include proof of work, mining on nodes and conflict resolution.
 
 ## Dependencies
 
