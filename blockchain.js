@@ -18,7 +18,9 @@ class Blockchain {
   }
 
   getNextBlock(transactions) {
+
     let block = new Block();
+    
     transactions.forEach(function(transaction) {
       block.addTransaction(transaction);
     });
